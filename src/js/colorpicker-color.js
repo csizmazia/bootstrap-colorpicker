@@ -493,9 +493,14 @@ Color.prototype = {
         re: /^([a-z]{3,})$/,
         format: 'alias',
         parse: function(execResult) {
-            var hexval = this.colorNameToHex(execResult[0]) || '#000000';
-            var match = this.stringParsers[0].re.exec(hexval),
+            if(execResult[0] === "transparent") {
+                values = [0, 0, 0, 0];
+            }
+            else {
+                var hexval = this.colorNameToHex(execResult[0]) ||  '#000000';
+                var match = this.stringParsers[0].re.exec(hexval);
                 values = match && this.stringParsers[0].parse.apply(this, [match]);
+            }
             return values;
         }
     }],
